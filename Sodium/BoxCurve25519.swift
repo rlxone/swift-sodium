@@ -49,15 +49,6 @@ extension BoxCurve25519 {
 }
 
 extension BoxCurve25519 {
-//    public byte[] encrypt(byte[] nonce, byte[] message) {
-//        checkLength(nonce, NONCE_BYTES);
-//        byte[] msg = prependZeros(ZERO_BYTES, message);
-//        byte[] ct = new byte[msg.length];
-//        isValid(sodium().crypto_box_curve25519xsalsa20poly1305(ct, msg,
-//                msg.length, nonce, publicKey, privateKey), "Encryption failed");
-//        return removeZeros(BOXZERO_BYTES, ct);
-//    }
-    
     public func seal(message: Bytes, recipientPublicKey: PublicKey, senderSecretKey: SecretKey, nonce: Nonce) -> Bytes? {
         guard recipientPublicKey.count == PublicKeyBytes,
             senderSecretKey.count == SecretKeyBytes,

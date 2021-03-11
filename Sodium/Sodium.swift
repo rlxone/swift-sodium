@@ -3,6 +3,7 @@ import Clibsodium
 
 public struct Sodium {
     public let box = Box()
+    public let boxCurve25519 = BoxCurve25519()
     public let secretBox = SecretBox()
     public let genericHash = GenericHash()
     public let pwHash = PWHash()
@@ -16,7 +17,7 @@ public struct Sodium {
     public let keyDerivation = KeyDerivation()
     public let secretStream = SecretStream()
     public let aead = Aead()
-
+    
     public init() {
         _ = Sodium.once
     }

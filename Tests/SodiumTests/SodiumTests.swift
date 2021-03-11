@@ -1,5 +1,6 @@
 import XCTest
 import Sodium
+import CommonCrypto
 
 extension String {
     func toData() -> Data? {
@@ -369,19 +370,55 @@ class SodiumTests: XCTestCase {
         let bin2 = sodium.utils.base642bin(b64)!
         XCTAssertEqual(b64, "dGVzdA==")
         XCTAssertEqual(bin2, bin)
-
+        
         let b64_nopad = sodium.utils.bin2base64(bin, variant: .URLSAFE_NO_PADDING)!
         let bin2_nopad = sodium.utils.base642bin(b64_nopad, variant: .URLSAFE_NO_PADDING)!
         XCTAssertEqual(b64_nopad, "dGVzdA")
         XCTAssertEqual(bin2_nopad, bin)
     }
-
+    
     func testPad() {
         var data = "test".bytes
         sodium.utils.pad(bytes: &data, blockSize: 16)!
         XCTAssertTrue(data.count % 16 == 0)
         sodium.utils.unpad(bytes: &data, blockSize: 16)!
         XCTAssertTrue(data.count == 4)
+    }
+    
+    func testCurve25519Open() {
+        let cipherText = "d5016e22c894ed8d7f3e1985de781184ab05f8cab2ed4a3351631cb8143525d35212399883823755f384f2953b1a9d5b3ccbd67126a1e0d74d6e41dbbc481b8157c5cbb5652815c76d455bb47f1db210eed34a8e7bdf04355f19"
+        let publicKey = "0153f0a2ee584e1105c447e5cb3c46db027ed20192b83fb805f47de543d82127"
+        let secret = "177038881993f272749f9e5f8088803973dd0327c8309ffb00b54d821d1ea73d7b9cde62a952"
+        let nonce = "befdc62ac1dca5b0ff28d207898fdf55e2708c4477446a1d"
+        
+        let keyPair = sodium.boxCurve25519.keyPair(seed: Bytes(hex: secret.sha256()))!
+        
+        let result = sodium.boxCurve25519.open(
+            authenticatedCipherText: Bytes(hex: cipherText),
+            senderPublicKey: Box.PublicKey(hex: publicKey),
+            recipientSecretKey: keyPair.secretKey,
+            nonce: Box.Nonce(hex: nonce)
+        )
+        
+        XCTAssertNotNil(result)
+    }
+    
+    func testCurve25519Seal() {
+        let publicKey = "0153f0a2ee584e1105c447e5cb3c46db027ed20192b83fb805f47de543d82127"
+        let secret = "177038881993f272749f9e5f8088803973dd0327c8309ffb00b54d821d1ea73d7b9cde62a952"
+        let nonce = "befdc62ac1dca5b0ff28d207898fdf55e2708c4477446a1d"
+        let message = "[ocean,strike,pilot,method,bid,shaft,before,rebel,parent,rough,skin,grief]"
+        
+        let keyPair = sodium.boxCurve25519.keyPair(seed: Bytes(hex: secret.sha256()))!
+        
+        let result = sodium.boxCurve25519.seal(
+            message: message.bytes,
+            recipientPublicKey: Box.PublicKey(hex: publicKey),
+            senderSecretKey: keyPair.secretKey,
+            nonce: Box.Nonce(hex: nonce)
+        )
+        
+        XCTAssertNotNil(result)
     }
     
     func testAead() {
@@ -431,5 +468,94 @@ class SodiumTests: XCTestCase {
         let decryptedEmpty: Bytes = sodium.aead.xchacha20poly1305ietf.decrypt(nonceAndAuthenticatedCipherText: encryptedEmpty, secretKey: secretKey, additionalData: additionalData)!
         
         XCTAssertTrue(decryptedEmpty == emptyMessage)
+    }
+}
+
+extension String {
+    func sha256() -> String {
+        if let stringData = self.data(using: String.Encoding.utf8) {
+            return hexStringFromData(input: digest(input: stringData as NSData))
+        }
+        return ""
+    }
+
+    private func digest(input : NSData) -> NSData {
+        let digestLength = Int(CC_SHA256_DIGEST_LENGTH)
+        var hash = [UInt8](repeating: 0, count: digestLength)
+        CC_SHA256(input.bytes, UInt32(input.length), &hash)
+        return NSData(bytes: hash, length: digestLength)
+    }
+
+    private func hexStringFromData(input: NSData) -> String {
+        var bytes = [UInt8](repeating: 0, count: input.length)
+        input.getBytes(&bytes, length: input.length)
+
+        var hexString = ""
+        for byte in bytes {
+            hexString += String(format:"%02x", UInt8(byte))
+        }
+
+        return hexString
+    }
+}
+
+extension Array {
+    init(reserveCapacity: Int) {
+        self = Array<Element>()
+        self.reserveCapacity(reserveCapacity)
+    }
+    
+    var slice: ArraySlice<Element> {
+        self[self.startIndex ..< self.endIndex]
+    }
+}
+
+extension Array where Element == UInt8 {
+    public init(hex: String) {
+        self.init(reserveCapacity: hex.unicodeScalars.lazy.underestimatedCount)
+        var buffer: UInt8?
+        var skip = hex.hasPrefix("0x") ? 2 : 0
+        for char in hex.unicodeScalars.lazy {
+            guard skip == 0 else {
+                skip -= 1
+                continue
+            }
+            guard char.value >= 48 && char.value <= 102 else {
+                removeAll()
+                return
+            }
+            let v: UInt8
+            let c: UInt8 = UInt8(char.value)
+            switch c {
+            case let c where c <= 57:
+                v = c - 48
+            case let c where c >= 65 && c <= 70:
+                v = c - 55
+            case let c where c >= 97:
+                v = c - 87
+            default:
+                removeAll()
+                return
+            }
+            if let b = buffer {
+                append(b << 4 | v)
+                buffer = nil
+            } else {
+                buffer = v
+            }
+        }
+        if let b = buffer {
+            append(b)
+        }
+    }
+    
+    public func toHexString() -> String {
+        `lazy`.reduce(into: "") {
+            var s = String($1, radix: 16)
+            if s.count == 1 {
+                s = "0" + s
+            }
+            $0 += s
+        }
     }
 }

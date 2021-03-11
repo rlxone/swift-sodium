@@ -90,6 +90,10 @@
 		90C75EED1AE3583E00F1E749 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095D805C1A4F4F72000B83F9 /* Utils.swift */; };
 		A0918C781E92489100C1DC33 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0918C771E92489100C1DC33 /* Auth.swift */; };
 		CFD847281BA8120900B1260F /* PWHash.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097F20D91AF127480088C2FE /* PWHash.swift */; };
+		CFEF4D1125FA494F00938E04 /* BoxCurve25519.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEF4D1025FA494F00938E04 /* BoxCurve25519.swift */; };
+		CFEF4D1225FA494F00938E04 /* BoxCurve25519.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEF4D1025FA494F00938E04 /* BoxCurve25519.swift */; };
+		CFEF4D1325FA494F00938E04 /* BoxCurve25519.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEF4D1025FA494F00938E04 /* BoxCurve25519.swift */; };
+		CFEF4D1425FA494F00938E04 /* BoxCurve25519.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEF4D1025FA494F00938E04 /* BoxCurve25519.swift */; };
 		D2A274061F13AD9300958702 /* KeyDerivation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A274051F13AD9300958702 /* KeyDerivation.swift */; };
 		D85101041E22EF5B003DB2E8 /* ReadmeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85101031E22EF5B003DB2E8 /* ReadmeTests.swift */; };
 		D87D515921647597006D2C03 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D87D515721647597006D2C03 /* Interface.storyboard */; };
@@ -367,6 +371,7 @@
 		901645471AE37F7200163E3E /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Base.lproj; path = Examples/OSX/Base.lproj; sourceTree = "<group>"; };
 		90C75E941AE3571900F1E749 /* Sodium.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Sodium.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0918C771E92489100C1DC33 /* Auth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
+		CFEF4D1025FA494F00938E04 /* BoxCurve25519.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxCurve25519.swift; sourceTree = "<group>"; };
 		D208E6BD1ECC7A69006D2137 /* sodium_lib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sodium_lib.h; sourceTree = "<group>"; };
 		D2A274051F13AD9300958702 /* KeyDerivation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyDerivation.swift; sourceTree = "<group>"; };
 		D85101031E22EF5B003DB2E8 /* ReadmeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadmeTests.swift; sourceTree = "<group>"; };
@@ -505,6 +510,7 @@
 				09A943E91A4EB70900C8A04F /* libsodium */,
 				09A943CC1A4EB5F500C8A04F /* Sodium.h */,
 				094F21E91A5017CA001C3141 /* Box.swift */,
+				CFEF4D1025FA494F00938E04 /* BoxCurve25519.swift */,
 				DD35BB6220932A83006BF351 /* Bytes.swift */,
 				DD35BB58209252BF006BF351 /* Generators */,
 				DD1E4D0E20922C9E00BE7A3F /* ExitCode.swift */,
@@ -1152,6 +1158,7 @@
 				091C7CDC1A50839D002E5351 /* Sign.swift in Sources */,
 				DD35BB5320924B6F006BF351 /* KeyPairGenerator.swift in Sources */,
 				A0918C781E92489100C1DC33 /* Auth.swift in Sources */,
+				CFEF4D1125FA494F00938E04 /* BoxCurve25519.swift in Sources */,
 				094298301EDDAA3B001236B1 /* Stream.swift in Sources */,
 				D2A274061F13AD9300958702 /* KeyDerivation.swift in Sources */,
 				DD35BB6320932A83006BF351 /* Bytes.swift in Sources */,
@@ -1199,6 +1206,7 @@
 				53008FA6253609D1006FE4EF /* SecretBox.swift in Sources */,
 				53008FA7253609D1006FE4EF /* Stream.swift in Sources */,
 				53008FA8253609D1006FE4EF /* GenericHash.swift in Sources */,
+				CFEF4D1425FA494F00938E04 /* BoxCurve25519.swift in Sources */,
 				53008FA9253609D1006FE4EF /* PWHash.swift in Sources */,
 				53008FAA253609D1006FE4EF /* RandomBytes.swift in Sources */,
 				53008FAB253609D1006FE4EF /* ShortHash.swift in Sources */,
@@ -1246,6 +1254,7 @@
 				90C75EE71AE3583E00F1E749 /* GenericHash.swift in Sources */,
 				90C75EE91AE3583E00F1E749 /* RandomBytes.swift in Sources */,
 				DD35BB5720924D3A006BF351 /* KeyPairProtocol.swift in Sources */,
+				CFEF4D1225FA494F00938E04 /* BoxCurve25519.swift in Sources */,
 				60C211E71EB73D3900882AD0 /* Auth.swift in Sources */,
 				094298311EDDAA3B001236B1 /* Stream.swift in Sources */,
 				DD1E4D1020922C9E00BE7A3F /* ExitCode.swift in Sources */,
@@ -1284,6 +1293,7 @@
 				D891FEA52164323A0092AA84 /* SecretBox.swift in Sources */,
 				D891FEA62164323A0092AA84 /* Stream.swift in Sources */,
 				D891FEA72164323A0092AA84 /* GenericHash.swift in Sources */,
+				CFEF4D1325FA494F00938E04 /* BoxCurve25519.swift in Sources */,
 				D891FEA82164323A0092AA84 /* PWHash.swift in Sources */,
 				D891FEA92164323A0092AA84 /* RandomBytes.swift in Sources */,
 				D891FEAA2164323A0092AA84 /* ShortHash.swift in Sources */,
@@ -1517,6 +1527,7 @@
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Sodium";
 				INFOPLIST_FILE = Sodium/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1552,6 +1563,7 @@
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Sodium";
 				INFOPLIST_FILE = Sodium/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

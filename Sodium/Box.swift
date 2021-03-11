@@ -215,7 +215,7 @@ extension Box {
         else { return nil }
 
         var message = Bytes(count: authenticatedCipherText.count - MacBytes)
-
+        
         guard .SUCCESS == crypto_box_open_easy(
             &message,
             authenticatedCipherText, UInt64(authenticatedCipherText.count),
@@ -225,7 +225,7 @@ extension Box {
         ).exitCode else { return nil }
 
         return message
-    }
+    }    
 
     /**
      Decrypts a message with a sender's public key, recipient's secret key, encryption nonce, and authentication tag.
@@ -374,13 +374,13 @@ extension Box: KeyPairGenerator {
         _ sk: UnsafeMutablePointer<UInt8>,
         _ seed: UnsafePointer<UInt8>
     ) -> Int32 = crypto_box_seed_keypair
-
+    
     public struct KeyPair: KeyPairProtocol {
         public typealias PublicKey = Box.PublicKey
         public typealias SecretKey = Box.SecretKey
         public let publicKey: PublicKey
         public let secretKey: SecretKey
-
+        
         public init(publicKey: PublicKey, secretKey: SecretKey) {
             self.publicKey = publicKey
             self.secretKey = secretKey
